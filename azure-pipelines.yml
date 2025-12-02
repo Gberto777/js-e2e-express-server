@@ -1,37 +1,15 @@
-# Pipeline para Proyecto Arquitectura
-# Configurado para agente Linux (Ubuntu) para evitar errores de PowerShell
-
 trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest' # ESTO ES LO CRITICO: Usamos Ubuntu, no Windows.
-
-variables:
-  buildConfiguration: 'Release'
+  name: 'Default'   # <--- ESTO ES EL CAMBIO IMPORTANTE. Usa tu agente 'Default' (tu PC).
 
 steps:
-# Paso 1: Mostrar información del sistema (simula compilación)
 - script: |
-    echo "Iniciando pipeline en Linux..."
-    echo "Sistema operativo:"
-    uname -a
-    echo "Directorio de trabajo:"
-    pwd
-  displayName: 'Inicializar Agente Ubuntu'
+    echo "¡Hola! Estoy corriendo en la computadora de Juan Gilberto."
+    echo "Fecha y hora:"
+    time /t
+  displayName: 'Verificación de Agente Local'
 
-# Paso 2: Simulación de Build (Copia de archivos)
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: 'Copiar Archivos de Repositorio'
-
-# Paso 3: Publicar los artefactos (Evidencia de que el pipeline procesó algo)
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  displayName: 'Publicar Artefactos'
+- script: echo ¡El pipeline ha funcionado correctamente!
+  displayName: 'Mensaje de Éxito'
